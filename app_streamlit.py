@@ -16,15 +16,30 @@ if file:
     st.dataframe(df)
 
     if st.button("Graphique en Barres"):
-        st.subheader("Graphique en Barres")
-        st.bar_chart(df.iloc[:, 0:2])
+        st.subheader("Âge des étudiants (Graphique en Barres)")
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.bar(df["Nom"], df["Âge"])
+        ax.set_xlabel("Nom")
+        ax.set_ylabel("Âge")
+        ax.set_title("Âge des étudiants")
+        plt.xticks(rotation=90)
+        st.pyplot(fig)
 
     if st.button("Graphique Linéaire"):
-        st.subheader("Graphique Linéaire")
-        st.line_chart(df.iloc[:, 0:2])
+        st.subheader("Âge des étudiants (Graphique Linéaire)")
+        fig, ax = plt.subplots(figsize=(10, 5))
+        df_sorted = df.sort_values(by="Âge")  # trier par âge pour plus de lisibilité
+        ax.plot(df_sorted["Nom"], df_sorted["Âge"], marker="o")
+        ax.set_xlabel("Nom")
+        ax.set_ylabel("Âge")
+        ax.set_title("Âge des étudiants (ordonnés)")
+        plt.xticks(rotation=90)
+        st.pyplot(fig)
 
     if st.button("Graphique Circulaire"):
-        st.subheader("Graphique Circulaire")
+        st.subheader("Répartition des Filières (Graphique Circulaire)")
         fig, ax = plt.subplots()
-        df.iloc[:, 1].plot(kind="pie", labels=df.iloc[:, 0], autopct="%1.1f%%", ax=ax)
+        df["Filière"].value_counts().plot(kind="pie", autopct="%1.1f%%", ax=ax)
+        ax.set_ylabel("")
+        ax.set_title("Répartition des Filières")
         st.pyplot(fig)
